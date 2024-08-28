@@ -19,7 +19,7 @@ RUN curl -s "https://get.sdkman.io" | bash && \
     sdk install java $(sdk list java | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1) && \
     sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
 
-RUN curl -v -L -H "Authorization: Bearer $BROADCOM_ARTIFACTORY_TOKEN" -o advisor-cli.tar https://packages.broadcom.com/artifactory/spring-enterprise/com/vmware/tanzu/spring/application-advisor-cli-linux/$APP_ADVISOR_VERSION}/application-advisor-cli-linux-$APP_ADVISOR_VERSION.tar && \
+RUN curl -v -L -H "Authorization: Bearer $BROADCOM_ARTIFACTORY_TOKEN" -o advisor-cli.tar https://packages.broadcom.com/artifactory/spring-enterprise/com/vmware/tanzu/spring/application-advisor-cli-linux/"${APP_ADVISOR_VERSION}"/application-advisor-cli-linux-"${APP_ADVISOR_VERSION}".tar && \
     tar -xf advisor-cli.tar --strip-components=1 --exclude=./META-INF && rm advisor-cli.tar && \
     mv advisor /usr/local/bin/
 
