@@ -1,13 +1,9 @@
 # syntax=docker/dockerfile:1
 FROM ghcr.io/vmware-tanzu-labs/educates-base-environment
 
-RUN ls /run/secrets/
-RUN --mount=type=secret,id=broadcom-artifactory-token \
-  BROADCOM_ARTIFACTORY_TOKEN=$(cat /run/secrets/broadcom-artifactory-token)
-RUN --mount=type=secret,id=broadcom-artifactory-user-email \
-  BROADCOM_ARTIFACTORY_USER_EMAIL=$(cat /run/secrets/broadcom-artifactory-user-email)
-RUN --mount=type=secret,id=app-advisor-version \
-  APP_ADVISOR_VERSION=$(cat /run/secrets/app-advisor-version)
+ARG BROADCOM_ARTIFACTORY_TOKEN
+ARG BROADCOM_ARTIFACTORY_USER_EMAIL
+ARG APP_ADVISOR_VERSION
 
 USER root
 

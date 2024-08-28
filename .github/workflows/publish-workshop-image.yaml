@@ -40,7 +40,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          secret-envs: |
-            broadcom-artifactory-token=${{ secrets.BROADCOM_ARTIFACTORY_TOKEN }}
-            broadcom-artifactory-user-email=${{ secrets.BROADCOM_ARTIFACTORY_USER_EMAIL }}
-            app-advisor-version=${{ secrets.APP_ADVISOR_VERSION }}          
+          build-args: |
+            BROADCOM_ARTIFACTORY_TOKEN=${{ secrets.BROADCOM_ARTIFACTORY_TOKEN }}
+            BROADCOM_ARTIFACTORY_USER_EMAIL=${{ secrets.BROADCOM_ARTIFACTORY_USER_EMAIL }}
+            APP_ADVISOR_VERSION=${{ secrets.APP_ADVISOR_VERSION }}          
