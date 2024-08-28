@@ -3,14 +3,14 @@ FROM ghcr.io/vmware-tanzu-labs/educates-base-environment
 
 USER root
 
-# RUN yum install maven -y
+RUN yum install maven -y
 
-# RUN curl -s "https://get.sdkman.io" | bash && \
-#     echo "sdkman_auto_answer=true" > $HOME/.sdkman/etc/config && \
-#     echo "sdkman_auto_selfupdate=false" >> $HOME/.sdkman/etc/config && \
-#     source "$HOME/.sdkman/bin/sdkman-init.sh" && \
-#     sdk install java $(sdk list java | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1) && \
-#     sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
+RUN curl -s "https://get.sdkman.io" | bash && \
+    echo "sdkman_auto_answer=true" > $HOME/.sdkman/etc/config && \
+    echo "sdkman_auto_selfupdate=false" >> $HOME/.sdkman/etc/config && \
+    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+    sdk install java $(sdk list java | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1) && \
+    sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
 
 
 RUN --mount=type=secret,id=broadcom_artifactory_token --mount=type=secret,id=app_advisor_version \
