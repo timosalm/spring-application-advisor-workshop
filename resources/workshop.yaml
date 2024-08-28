@@ -1,0 +1,35 @@
+apiVersion: training.educates.dev/v1beta1
+kind: Workshop
+metadata:
+  name: "spring-application-advisor"
+spec:
+  title: "Spring Application Advisor Introduction (WIP)"
+  description: "A workshop that demonstrates how Spring Application Advisor can help you to  continuously and incrementally upgrade Spring application dependencies, source code and configuration"
+  publish:
+    image: "$(image_repository)/spring-application-advisor-files:$(workshop_version)"
+  workshop:
+    image: "ghcr.io/timosalm/spring-application-advisor-workshop/workshop-image:main"
+    files:
+    - git:
+        url: https://github.com/timosalm/spring-application-advisor-workshop
+        ref: origin/main
+      includePaths:
+      - /workshop/**
+      - /exercises/**
+      - /README.md
+  environment:
+    secrets:
+    - name: spring-application-advisor-workshop-image-pull-secret
+      namespace: educates
+  session:
+    namespaces:
+      budget: large
+      security:
+        token:
+          enabled: false
+    applications:
+      terminal:
+        enabled: true
+        layout: split
+      editor:
+        enabled: true
