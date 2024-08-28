@@ -8,16 +8,16 @@ RUN --mount=type=secret,id=broadcom_artifactory_token \
 RUN --mount=type=secret,id=broadcom_artifactory_user_email \
   BROADCOM_ARTIFACTORY_USER_EMAIL=$(cat /run/secrets/broadcom_artifactory_user_email)
 RUN --mount=type=secret,id=app_advisor_version \
-  APP_ADVISOR_VERSION=$(cat /run/secrets/app_advisor_version)
+  export APP_ADVISOR_VERSION=$(cat /run/secrets/app_advisor_version)
 
-RUN yum install maven -y
+# RUN yum install maven -y
 
-RUN curl -s "https://get.sdkman.io" | bash && \
-    echo "sdkman_auto_answer=true" > $HOME/.sdkman/etc/config && \
-    echo "sdkman_auto_selfupdate=false" >> $HOME/.sdkman/etc/config && \
-    source "$HOME/.sdkman/bin/sdkman-init.sh" && \
-    sdk install java $(sdk list java | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1) && \
-    sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
+# RUN curl -s "https://get.sdkman.io" | bash && \
+#     echo "sdkman_auto_answer=true" > $HOME/.sdkman/etc/config && \
+#     echo "sdkman_auto_selfupdate=false" >> $HOME/.sdkman/etc/config && \
+#     source "$HOME/.sdkman/bin/sdkman-init.sh" && \
+#     sdk install java $(sdk list java | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1) && \
+#     sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
 
 
 RUN echo $APP_ADVISOR_VERSION
