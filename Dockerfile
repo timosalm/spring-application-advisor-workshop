@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM ghcr.io/vmware-tanzu-labs/educates-base-environment
 
 USER root
@@ -15,41 +16,42 @@ RUN curl -L -H "Authorization: Bearer $BROADCOM_ARTIFACTORY_TOKEN" -o advisor-cl
     tar -xf advisor-cli.tar --strip-components=1 --exclude=./META-INF && rm advisor-cli.tar && \
     mv advisor /usr/local/bin/
 
-RUN cat <<EOF >$HOME/.m2/settings.xml
-    <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
-        <servers>
-            <server>
-                <id>spring-enterprise-subscription</id>
-                <username>$BROADCOM_ARTIFACTORY_USER_EMAIL</username>
-                <password>$BROADCOM_ARTIFACTORY_TOKEN</password>
-            </server>
-        </servers>
-        <profiles>
-            <profile>
-                <id>spring-enterprise</id>
-                <activation>
-                    <activeByDefault>true</activeByDefault>
-                </activation>
-                <repositories>
-                    <repository>
-                        <id>spring-enterprise-subscription</id>
-                        <url>https://packages.broadcom.com/artifactory/spring-enterprise</url>
-                    </repository>
-                </repositories>
-                <pluginRepositories>
-                    <pluginRepository>
-                        <id>spring-enterprise-subscription</id>
-                        <url>https://packages.broadcom.com/artifactory/spring-enterprise</url>
-                    </pluginRepository>
-                </pluginRepositories>
-            </profile>
-        </profiles>
-        <activeProfiles>
-            <activeProfile>spring-enterprise</activeProfile>
-        </activeProfiles>
-    </settings>
-    EOF
+COPY <<EOF $HOME/.m2/settings.xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+        <server>
+            <id>spring-enterprise-subscription</id>
+            <username>$BROADCOM_ARTIFACTORY_USER_EMAIL</username>
+            <password>$BROADCOM_ARTIFACTORY_TOKEN</password>
+        </server>
+    </servers>
+    <profiles>
+        <profile>
+            <id>spring-enterprise</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>spring-enterprise-subscription</id>
+                    <url>https://packages.broadcom.com/artifactory/spring-enterprise</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>spring-enterprise-subscription</id>
+                    <url>https://packages.broadcom.com/artifactory/spring-enterprise</url>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>spring-enterprise</activeProfile>
+    </activeProfiles>
+</settings>
+EOF
+
 RUN mvn dependency:get -DrepoUrl=https://packages.broadcom.com/artifactory/spring-enterprise -Dartifact=com.vmware.tanzu.spring.recipes:spring-boot-3-upgrade-recipes:$APP_ADVISOR_VERSION
 
 COPY --chown=1001:0 . /home/eduk8s/

@@ -13,7 +13,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}/workshop-image
 
 jobs:
-  publish-tanzu-cli-extension-package:
+  publish-workshop-image:
     runs-on: ubuntu-latest
 
     steps:
