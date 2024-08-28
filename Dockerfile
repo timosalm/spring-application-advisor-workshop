@@ -55,8 +55,11 @@ COPY <<EOF $HOME/.m2/settings.xml
 EOF
 RUN --mount=type=secret,id=broadcom_artifactory_token --mount=type=secret,id=broadcom_artifactory_user_email \
   sed -e "s/BROADCOM_ARTIFACTORY_USER_EMAIL/$(cat /run/secrets/broadcom_artifactory_user_email)/" -e "s/BROADCOM_ARTIFACTORY_TOKEN/$(cat /run/secrets/broadcom_artifactory_token)/" $HOME/.m2/settings.xml
+#RUN --mount=type=secret,id=app_advisor_commercial_recipes_version \
+#  mvn dependency:get -DrepoUrl=https://packages.broadcom.com/artifactory/spring-enterprise -Dartifact=com.vmware.tanzu.spring.recipes:spring-boot-3-upgrade-recipes:$(cat /run/secrets/app_advisor_commercial_recipes_version)
 RUN --mount=type=secret,id=app_advisor_commercial_recipes_version \
-  mvn dependency:get -DrepoUrl=https://packages.broadcom.com/artifactory/spring-enterprise -Dartifact=com.vmware.tanzu.spring.recipes:spring-boot-3-upgrade-recipes:$(cat /run/secrets/app_advisor_commercial_recipes_version)
+  mvn dependency:get -DrepoUrl=https://packages.broadcom.com/artifactory/spring-enterprise -Dartifact=com.vmware.tanzu.spring.recipes:spring-boot-3-upgrade-recipes:1.0.0
+
 RUN rm $HOME/.m2/settings.xml
 
 COPY --chown=1001:0 . /home/eduk8s/
