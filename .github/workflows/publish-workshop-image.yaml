@@ -43,4 +43,5 @@ jobs:
           secrets: |
             broadcom_artifactory_token=${{ secrets.BROADCOM_ARTIFACTORY_TOKEN }}
             broadcom_artifactory_user_email=${{ secrets.BROADCOM_ARTIFACTORY_USER_EMAIL }}
-            app_advisor_version=${{ secrets.APP_ADVISOR_VERSION }}          
+            app_advisor_version=${{ secrets.APP_ADVISOR_VERSION }}
+            app_advisor_commercial_recipes_version=${{ secrets.APP_ADVISOR_COMMERCIAL_RECIPES_VERSION }}     
