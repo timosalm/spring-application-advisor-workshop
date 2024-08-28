@@ -3,13 +3,6 @@ FROM ghcr.io/vmware-tanzu-labs/educates-base-environment
 
 USER root
 
-RUN --mount=type=secret,id=broadcom_artifactory_token \
-  BROADCOM_ARTIFACTORY_TOKEN=$(cat /run/secrets/broadcom_artifactory_token)
-RUN --mount=type=secret,id=broadcom_artifactory_user_email \
-  cat /run/secrets/broadcom_artifactory_user_email
-RUN --mount=type=secret,id=app_advisor_version \
-  cat /run/secrets/app_advisor_version
-
 # RUN yum install maven -y
 
 # RUN curl -s "https://get.sdkman.io" | bash && \
@@ -31,8 +24,8 @@ COPY <<EOF $HOME/.m2/settings.xml
     <servers>
         <server>
             <id>spring-enterprise-subscription</id>
-            <username>$BROADCOM_ARTIFACTORY_USER_EMAIL</username>
-            <password>$BROADCOM_ARTIFACTORY_TOKEN</password>
+            <username>BROADCOM_ARTIFACTORY_USER_EMAIL</username>
+            <password>BROADCOM_ARTIFACTORY_TOKEN</password>
         </server>
     </servers>
     <profiles>
@@ -60,8 +53,11 @@ COPY <<EOF $HOME/.m2/settings.xml
     </activeProfiles>
 </settings>
 EOF
+RUN --mount=type=secret,id=broadcom_artifactory_token --mount=type=secret,id=broadcom_artifactory_user_email \
+  sed -e "s/BROADCOM_ARTIFACTORY_USER_EMAIL/$(cat /run/secrets/broadcom_artifactory_user_email)/" -e "s/BROADCOM_ARTIFACTORY_TOKEN/$(cat /run/secrets/broadcom_artifactory_token)/" $HOME/.m2/settings.xml
 
-RUN mvn dependency:get -DrepoUrl=https://packages.broadcom.com/artifactory/spring-enterprise -Dartifact=com.vmware.tanzu.spring.recipes:spring-boot-3-upgrade-recipes:$APP_ADVISOR_VERSION
+RUN --mount=type=secret,id=app_advisor_version \
+  mvn dependency:get -DrepoUrl=https://packages.broadcom.com/artifactory/spring-enterprise -Dartifact=com.vmware.tanzu.spring.recipes:spring-boot-3-upgrade-recipes:$(cat /run/secrets/app_advisor_version)
 
 COPY --chown=1001:0 . /home/eduk8s/
 
