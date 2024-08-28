@@ -6,9 +6,9 @@ USER root
 RUN --mount=type=secret,id=broadcom_artifactory_token \
   BROADCOM_ARTIFACTORY_TOKEN=$(cat /run/secrets/broadcom_artifactory_token)
 RUN --mount=type=secret,id=broadcom_artifactory_user_email \
-  BROADCOM_ARTIFACTORY_USER_EMAIL=$(cat /run/secrets/broadcom_artifactory_user_email)
+  cat /run/secrets/broadcom_artifactory_user_email
 RUN --mount=type=secret,id=app_advisor_version \
-  export APP_ADVISOR_VERSION=$(cat /run/secrets/app_advisor_version)
+  cat /run/secrets/app_advisor_version
 
 # RUN yum install maven -y
 
