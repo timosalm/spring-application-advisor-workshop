@@ -1,6 +1,13 @@
 # syntax=docker/dockerfile:1
 FROM ghcr.io/vmware-tanzu-labs/educates-base-environment
 
+RUN --mount=type=secret,id=broadcom-artifactory-token \
+  BROADCOM_ARTIFACTORY_TOKEN=$(cat /run/secrets/broadcom-artifactory-token)
+RUN --mount=type=secret,id=broadcom-artifactory-user-email \
+  BROADCOM_ARTIFACTORY_USER_EMAIL=$(cat /run/secrets/broadcom-artifactory-user-email)
+RUN --mount=type=secret,id=app-advisor-version \
+  APP_ADVISOR_VERSION=$(cat /run/secrets/app-advisor-version)
+
 USER root
 
 RUN yum install maven -y
@@ -12,7 +19,7 @@ RUN curl -s "https://get.sdkman.io" | bash && \
     sdk install java $(sdk list java | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1) && \
     sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
 
-RUN curl -v -L -H "Authorization: Bearer $BROADCOM_ARTIFACTORY_TOKEN" -o advisor-cli.tar -X GET https://packages.broadcom.com/artifactory/spring-enterprise/com/vmware/tanzu/spring/application-advisor-cli-linux/"${APP_ADVISOR_VERSION}"/application-advisor-cli-linux-"${APP_ADVISOR_VERSION}".tar && \
+RUN curl -v -L -H "Authorization: Bearer $BROADCOM_ARTIFACTORY_TOKEN" -o advisor-cli.tar https://packages.broadcom.com/artifactory/spring-enterprise/com/vmware/tanzu/spring/application-advisor-cli-linux/$APP_ADVISOR_VERSION}/application-advisor-cli-linux-$APP_ADVISOR_VERSION.tar && \
     tar -xf advisor-cli.tar --strip-components=1 --exclude=./META-INF && rm advisor-cli.tar && \
     mv advisor /usr/local/bin/
 
