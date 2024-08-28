@@ -20,11 +20,10 @@ RUN --mount=type=secret,id=app_advisor_version \
 #     sdk install java $(sdk list java | grep  "11.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
 
 
-RUN cat /run/secrets/app_advisor_version
-
-RUN curl -v -L -H "Authorization: Bearer $BROADCOM_ARTIFACTORY_TOKEN" -o advisor-cli.tar https://packages.broadcom.com/artifactory/spring-enterprise/com/vmware/tanzu/spring/application-advisor-cli-linux/${APP_ADVISOR_VERSION}/application-advisor-cli-linux-${APP_ADVISOR_VERSION}.tar && \
-    tar -xf advisor-cli.tar --strip-components=1 --exclude=./META-INF && rm advisor-cli.tar && \
-    mv advisor /usr/local/bin/
+RUN --mount=type=secret,id=broadcom_artifactory_token --mount=type=secret,id=app_advisor_version \
+  curl -v -L -H "Authorization: Bearer $(cat /run/secrets/broadcom_artifactory_token)" -o advisor-cli.tar https://packages.broadcom.com/artifactory/spring-enterprise/com/vmware/tanzu/spring/application-advisor-cli-linux/$(cat /run/secrets/app_advisor_version)/application-advisor-cli-linux-$(cat /run/secrets/app_advisor_version).tar && \
+  tar -xf advisor-cli.tar --strip-components=1 --exclude=./META-INF && rm advisor-cli.tar && \
+  mv advisor /usr/local/bin/
 
 COPY <<EOF $HOME/.m2/settings.xml
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
