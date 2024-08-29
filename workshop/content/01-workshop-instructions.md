@@ -2,4 +2,6 @@
 title: Workshop Instructions
 ---
 
-This is the first page of the workshop instructions, create as many separate pages as you need to. If necessary pages can be located in sub directories to provided grouping.
+```execute
+git clone {{< param  git_protocol >}}://{{< param  git_host >}}/spring-petclinic && cd spring-petclinic
+```
