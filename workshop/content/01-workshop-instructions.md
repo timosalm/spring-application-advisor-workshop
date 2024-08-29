@@ -49,7 +49,70 @@ description: Open Source Control view in editor
 ```
 
 ```execute
-sdk use java $(sdk list java | grep installed | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
+advisor build-config get
+advisor build-config publish --url=${APP_ADVISOR_SERVER}
+advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
+advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER}
 ```
+
+```editor:execute-command
+command: workbench.view.scm
+description: Open Source Control view in editor
+```
+
+```terminal:execute
+command: sdk use java $(sdk list java | grep installed | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
+session: 1
+cascade: true
+```
+```terminal:execute
+command: sdk use java $(sdk list java | grep installed | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
+session: 2
+hidden: true
+```
+```terminal:execute
+command: ./mvnw spring-boot:run
+session: 2
+```
+
+Spring Application Advisor preserves your coding style by doing the minimum required changes in the source files. However, if you are using a Maven or Gradle formatter like spring-javaformat for your repository, add the --after-upgrade-cmd option to the advisor upgrade-plan apply command as follows.
+
+```execute
+git restore .
+```
+
+```execute
+advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
+```
+```terminal:execute
+command: ./mvnw spring-boot:run
+session: 2
+```
+
+```dashboard:open-url
+url: {{< param  ingress_protocol >}}://petclinic-{{< param  session_name >}}.{{< param  ingress_domain >}}
+```
+
+```terminal:interrupt
+session: 2
+```
+
+```execute
+advisor build-config get
+advisor build-config publish --url=${APP_ADVISOR_SERVER}
+advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
+advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
+```
+
+```editor:execute-command
+command: workbench.view.scm
+description: Open Source Control view in editor
+```
+
+```terminal:execute
+command: ./mvnw spring-boot:run
+session: 2
+```
+
 
 
