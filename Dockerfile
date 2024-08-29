@@ -71,7 +71,7 @@ COPY <<EOF .m2/settings.xml
                     <id>spring-enterprise-subscription</id>
                     <url>https://packages.broadcom.com/artifactory/spring-enterprise</url>
                     <releases>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                         <updatePolicy>never</updatePolicy>
                     </releases>
                     <snapshots>
@@ -84,7 +84,7 @@ COPY <<EOF .m2/settings.xml
                     <id>spring-enterprise-subscription</id>
                     <url>https://packages.broadcom.com/artifactory/spring-enterprise</url>
                     <releases>
-                        <enabled>true</enabled>
+                        <enabled>false</enabled>
                         <updatePolicy>never</updatePolicy>
                     </releases>
                     <snapshots>
