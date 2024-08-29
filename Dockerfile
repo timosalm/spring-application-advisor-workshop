@@ -100,7 +100,7 @@ COPY <<EOF .m2/settings.xml
 </settings>
 EOF
 
-RUN rm -rf META-INF && rm mvn-settings.xml.bak
+RUN rm -rf META-INF && rm mvn-settings.xml.bak && rm mvn-settings.xml
 
 COPY --chown=1001:0 . /home/eduk8s/
 RUN mkdir -p /opt/workshop && chmod -R 0777 /opt/workshop
