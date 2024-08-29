@@ -12,7 +12,7 @@ session: 2
 ```
 
 ```dashboard:open-url
-url: petclinic-{{< param  session_name >}}.{{< param  ingress_domain >}}
+url: {{< param  ingress_protocol >}}://petclinic-{{< param  session_name >}}.{{< param  ingress_domain >}}
 ```
 
 ```terminal:interrupt
@@ -27,6 +27,10 @@ advisor --help
 advisor build-config get
 ```
 
+```editor:open-file
+file: ~/spring-petclinic/target/.advisor/build-config.json
+```
+
 ```execute
 advisor build-config publish --url=${APP_ADVISOR_SERVER}
 ```
@@ -37,6 +41,11 @@ advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
 
 ```execute
 advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER}
+```
+
+```editor:execute-command
+command: workbench.view.scm
+description: Open Source Control view in editor
 ```
 
 ```execute
