@@ -19,8 +19,6 @@ spec:
         ref: origin/main
       includePaths:
       - /workshop/**
-      - /exercises/**
-      - /README.md
   environment: 
     secrets:
     - name: spring-application-advisor-workshop-image-pull-secret
