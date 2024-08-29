@@ -33,6 +33,8 @@ spec:
     resources:
       memory: 4Gi
     ingresses:
+    - name: petclinic
+      port: 8080
     - name: app-advisor-server
       protocol: http
       host: app-advisor.$(session_namespace)
