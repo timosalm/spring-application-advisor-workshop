@@ -3,7 +3,7 @@ FROM ghcr.io/vmware-tanzu-labs/educates-base-environment
 
 USER root
 
-RUN yum install maven -y
+RUN yum install maven moreutils -y
 
 RUN curl -s "https://get.sdkman.io" | bash && \
     echo "sdkman_auto_answer=true" > $HOME/.sdkman/etc/config && \
@@ -99,6 +99,8 @@ COPY <<EOF .m2/settings.xml
     </activeProfiles>
 </settings>
 EOF
+
+RUN rm -rf META-INF && mvn-settings.xml.bak && README.md
 
 COPY --chown=1001:0 . /home/eduk8s/
 RUN mkdir -p /opt/workshop && chmod -R 0777 /opt/workshop
