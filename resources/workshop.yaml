@@ -32,6 +32,8 @@ spec:
         token:
           enabled: false
         policy: baseline
+    resources:
+      memory: 4Gi
     ingresses:
     - name: app-advisor-server
       protocol: http
