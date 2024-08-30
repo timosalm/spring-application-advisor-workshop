@@ -7,5 +7,5 @@ pathways:
 
       steps:
       - 00-workshop-overview
-      - 01-workshop-instructions
+      - 01-first-steps
       - 99-workshop-summary
