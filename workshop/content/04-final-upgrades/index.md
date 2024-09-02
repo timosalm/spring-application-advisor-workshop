@@ -33,13 +33,13 @@ cascade: true
 command: sed -i 's/>11</>17</g' pom.xml
 description: Fix bug with OSS OpenRewrite recipe
 hidden: true
-cascade: true
 ```
+
+After making yourself aware of all the changes, **commit and push them**.
 ```editor:execute-command
 command: workbench.view.scm
 description: Open the Source Control view in editor
 ```
-After making yourself aware of all the changes, **commit and push them**.
 
 
 ```terminal:execute
@@ -49,13 +49,13 @@ command: |
   advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
   advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
 description: Upgrade Sprin Boot from 3.2.x to 3.3.x
-cascade: true
 ```
+
+After making yourself aware of all the changes, **commit and push them**.
 ```editor:execute-command
 command: workbench.view.scm
 description: Open the Source Control view in editor
 ```
-After making yourself aware of all the changes, **commit and push them**.
 
 Finally, let's check one more time that everything still works after we upgraded our application from 2.7 to the latest Spring Boot version!
 ```terminal:execute

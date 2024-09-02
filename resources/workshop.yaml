@@ -8,7 +8,7 @@ metadata:
   name: "spring-application-advisor"
 spec:
   title: "Spring Application Advisor Introduction (WIP)"
-  description: "A workshop that demonstrates how Spring Application Advisor can help you to  continuously and incrementally upgrade Spring application dependencies, source code and configuration"
+  description: "A workshop that demonstrates how *Spring Application Advisor* can help you to  continuously and incrementally upgrade Spring application dependencies, source code and configuration"
   publish:
     image: "$(image_repository)/spring-application-advisor-files:$(workshop_version)"
   workshop:

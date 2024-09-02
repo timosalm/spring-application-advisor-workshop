@@ -8,7 +8,7 @@ Spring Application Advisor detects if there is a new version available for upgra
 
 ![Sample Upgrade Plan](advisor-upgrade-plan.png)
 
-To make those changes available for review, Spring Application Advisor is able to create pull requests to make it as easy as possible to integrate it into the existing CI/CD processes.
+To make those changes available for review, *Spring Application Advisor* is able to create pull requests to make it as easy as possible to integrate it into the existing CI/CD processes.
 
 ![Sample Pull Request](advisor-pull-request.png)
 
@@ -18,10 +18,10 @@ To make those changes available for review, Spring Application Advisor is able t
 
 It consists of an auto-refactoring engine that runs prepackaged, refactoring recipes for common framework migrations, security fixes, and stylistic consistency tasks – reducing your coding effort from hours or days to minutes. Build tool plugins like the OpenRewrite Gradle plugin and the OpenRewrite Maven plugin help you run these recipes on one repository at a time.
 
-In addition to the recipes available as open-source, Spring Application Advisor also has access to our commercial recipes built with the expertise of the Spring team.
+In addition to the recipes available as open-source, *Spring Application Advisor* also has access to our commercial recipes built with the expertise of the Spring team.
 
-#### How Spring Application Advisor Works
-Spring Application Advisor is a package that is composed of a **native CLI and a Server application**.
+#### How *Spring Application Advisor* works
+*Spring Application Advisor* is a package that is composed of a **native CLI and a Server application**.
 
 ![Spring Application Advisor Architecture](architecture.png)
 

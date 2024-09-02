@@ -18,7 +18,6 @@ advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=sprin
 ```
 
 By switching to the Source Control view in embedded editor, you can have a closer look at all the changes applied to our code base.
-Source Control view in editor
 ```editor:execute-command
 command: workbench.view.scm
 description: Open the Source Control view in editor

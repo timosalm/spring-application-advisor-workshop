@@ -6,6 +6,7 @@ title: Your First Step(s) With Spring Application Advisor
 
 To discover the capabilities of *Spring Application Advisor*, we will use a well known application: [Spring Petclinic](https://github.com/spring-projects/spring-petclinic).  
 *Spring PetClinic* is a sample application designed to show how the Spring stack can be used to build simple, but powerful database-oriented applications. It demonstrates the use of Spring Boot with Spring MVC and Spring Data JPA.
+
 *Spring PetClinic* is constantly upgraded to the latest versions, so we go back in time and check-out a version from around two years when it was still **based on Spring Boot 2.7 and Java 8**.
 
 ```execute
@@ -26,8 +27,8 @@ file: ~/spring-petclinic/pom.xml
 text: "<java.version>1.8</java.version>"
 ```
 
-The Spring Boot migration from Spring Boot version 2.7 to 3.x (and Spring Framework 6) is challenging due to baseline changes to **Java 17+** from Java 8-17, and **Jakarta EE 9+** from Java EE 7-8.
-Without a VMware Spring Enterprise subscription, [Spring Boot 2.7 is end of support](https://spring.io/projects/spring-boot#support) since 11/2023, which means that no new security fixes will be released as open-source.
+The Spring Boot migration from Spring Boot version 2.7 to 3.x (and Spring Framework 6) is challenging due to baseline changes to **Java 17+**, and **Jakarta EE 9+**.
+Without a *VMware Spring Enterprise* subscription, [Spring Boot 2.7 is end of support](https://spring.io/projects/spring-boot#support) since 11/2023, which means that no new security fixes will be released as open-source.
 
 Let's run *Spring PetClinic* to validate that it works before our upgrade.
 ```terminal:execute
@@ -96,16 +97,17 @@ As you can see there are a way more options available than for the previous comm
 ```execute
 advisor upgrade-plan apply --help
 ```
-With the `--after-upgrade-cmd` you can automatically run a Maven goal or Gradle task after the upgrade, which we will do later as part of this workshop to run a Java formatter.
-As the upgrade process is automated based on `OpenRewrite`, the Maven/Gradle build tools, and as a consequence runs on a JVM, the `--build-tool-options` and `--build-tool-jvm-args` options make it possible to [tweak the build tools and JVM](https://docs.vmware.com/en/Tanzu-Spring-Runtime/Commercial/Tanzu-Spring-Runtime/app-advisor-run-app-advisor-cli.html#increasing-memory-limit) for larger code bases by for example increasing the memory limit or changing the Garbage Collector.
+With the `--after-upgrade-cmd`, you can automatically run a Maven goal or Gradle task after the upgrade, which we will do later as part of this workshop.
+
+As the upgrade process is automated based on `OpenRewrite` using the Maven/Gradle build tools, it runs as a consequence on a JVM. The `--build-tool-options` and `--build-tool-jvm-args` options make it possible to [tweak the build tools and JVM](https://docs.vmware.com/en/Tanzu-Spring-Runtime/Commercial/Tanzu-Spring-Runtime/app-advisor-run-app-advisor-cli.html#increasing-memory-limit) for larger code bases by for example increasing the memory limit or changing the Garbage Collector.
 
 The `--push` option enables the capability to automatically create a remote branch, push the changes, and open a pull request for review by the developer team before changes are merged into the code base.  
 
 Last but not least, there is a `--from-yml` option, that references a `spring-app-advisor.yml` file in the source code repository, which enables (or disables) based on its contents (e.g. `enabled: true`) continuous and incremental upgrades within a CI/CD pipline.
 
-For the sake of simplicity in this workshop, we run the steps to upgrade our code base locally and not in a CI/CD pipline, and without the `--push` option, as pull requests are not part of Git itself, but available at providers like GitHub, GitLab ,or Bitbucket.
+For the sake of simplicity in this workshop, we run the steps to upgrade our code base locally and not in a CI/CD pipeline, and without the `--push` option, as pull requests are not part of Git itself, but available at providers like GitHub, GitLab ,or Bitbucket.
 
-The first step of our upgrade plan is to **upgrade Java from 8 to 11**, let's run it.
+The first step of our upgrade plan is to **upgrade Java from 8 to 11**. Let's run it!
 ```execute
 advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER}
 ```
