@@ -10,4 +10,5 @@ pathways:
       - 01-first-steps
       - 02-next-upgrade-steps
       - 03-spring-boot-upgrades
+      - 04-final-upgrades
       - 99-workshop-summary
