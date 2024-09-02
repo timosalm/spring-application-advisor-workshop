@@ -1,5 +1,5 @@
 ---
-title: Continuous and incremental upgrades
+title: Continuous And Incremental Upgrades
 ---
 
 As you saw, *Spring Application Advisor* is able to continuously and incrementally upgrade your Spring dependencies in all your Git repositories. The only thing developers still have to do is to review the changes applied for an upgrade.

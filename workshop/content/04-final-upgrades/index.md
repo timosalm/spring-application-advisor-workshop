@@ -20,6 +20,8 @@ description: Open the Source Control view in editor
 ```
 
 #### (Optional) Upgrade to the latest Spring Boot release
+
+
 ```terminal:execute
 command: |
   advisor build-config get
@@ -34,7 +36,6 @@ command: sed -i 's/>11</>17</g' pom.xml
 description: Fix bug with OSS OpenRewrite recipe
 hidden: true
 ```
-
 After making yourself aware of all the changes, **commit and push them**.
 ```editor:execute-command
 command: workbench.view.scm
@@ -50,12 +51,12 @@ command: |
   advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
 description: Upgrade Sprin Boot from 3.2.x to 3.3.x
 ```
-
 After making yourself aware of all the changes, **commit and push them**.
 ```editor:execute-command
 command: workbench.view.scm
 description: Open the Source Control view in editor
 ```
+
 
 Finally, let's check one more time that everything still works after we upgraded our application from 2.7 to the latest Spring Boot version!
 ```terminal:execute
