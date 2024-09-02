@@ -4,21 +4,22 @@ title: Running Final Upgrade Steps
 
 In this section, we will rerun the `advisor build-config`, and `advisor upgrade-plan` commands to upgrade our code base to the latest Spring Boot release.
 
+By adding the `--debug` option to `advisor build-config get` and `advisor upgrade-plan apply`, we are able to get a better understanding of what's happening underneath, for example which OpenRewrite recipes are getting applied.
 ```terminal:execute
 command: |
-  advisor build-config get
+  advisor build-config get --debug
   advisor build-config publish --url=${APP_ADVISOR_SERVER}
   advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
-  advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
-description: Upgrade Sprin Boot from 3.0.x to 3.1.x
-cascade: true
+  advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply --debug
 ```
+
+After making yourself aware of all the changes of the Spring Boot 3.0.x to 3.1.x update, **commit and push them**.
 ```editor:execute-command
 command: workbench.view.scm
 description: Open the Source Control view in editor
 ```
-After making yourself aware of all the changes, **commit and push them**.
 
+#### (Optional) Upgrade to the latest Spring Boot release
 ```terminal:execute
 command: |
   advisor build-config get
@@ -69,5 +70,3 @@ url: {{< param  ingress_protocol >}}://petclinic-{{< param  session_name >}}.{{<
 ```terminal:interrupt
 session: 2
 ```
-
-
