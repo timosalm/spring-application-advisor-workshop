@@ -1,12 +1,12 @@
 ---
-title: Your First Steps With Spring Application Advisor
+title: Your First Step(s) With Spring Application Advisor
 ---
 
 #### Sample Application
 
-To discover the capabilities of `Spring Application Advisor`, we will use a well known application: [Spring Petclinic](https://github.com/spring-projects/spring-petclinic).  
+To discover the capabilities of *Spring Application Advisor*, we will use a well known application: [Spring Petclinic](https://github.com/spring-projects/spring-petclinic).  
 *Spring PetClinic* is a sample application designed to show how the Spring stack can be used to build simple, but powerful database-oriented applications. It demonstrates the use of Spring Boot with Spring MVC and Spring Data JPA.
-*Spring PetClinic* is constantly updated to the latest versions, so we go back in time and check-out a version from around two years when it was still **based on Spring Boot 2.7 and Java 8**.
+*Spring PetClinic* is constantly upgraded to the latest versions, so we go back in time and check-out a version from around two years when it was still **based on Spring Boot 2.7 and Java 8**.
 
 ```execute
 git clone {{< param  git_protocol >}}://{{< param  git_host >}}/spring-petclinic && cd spring-petclinic
@@ -17,19 +17,23 @@ file: ~/spring-petclinic/pom.xml
 description: Open Maven POM to see used Spring Boot and Java version
 line: 1
 ```
+```editor:select-matching-text
+file: ~/spring-petclinic/pom.xml
+text: "<version>2.7.3</version>"
+```
+```editor:select-matching-text
+file: ~/spring-petclinic/pom.xml
+text: "<java.version>1.8</java.version>"
+```
 
 The Spring Boot migration from Spring Boot version 2.7 to 3.x (and Spring Framework 6) is challenging due to baseline changes to **Java 17+** from Java 8-17, and **Jakarta EE 9+** from Java EE 7-8.
 Without a VMware Spring Enterprise subscription, [Spring Boot 2.7 is end of support](https://spring.io/projects/spring-boot#support) since 11/2023, which means that no new security fixes will be released as open-source.
 
-Let's run *Spring PetClinic* to validate that it works before our update.
+Let's run *Spring PetClinic* to validate that it works before our upgrade.
 ```terminal:execute
 command: cd spring-petclinic && ./mvnw spring-boot:run
 session: 2
 ```
-
-{{< note >}}
-It can take several minutes to download all required dependencies. Feel free to continue with the next section and come back as soon as the application is running.
-{{< /note >}}
 
 When the application started, click here to open a new browser tab with the running application.
 ```dashboard:open-url
@@ -79,14 +83,14 @@ Use this command to publish the generated build configuration to the *Spring App
 advisor build-config publish --url=${APP_ADVISOR_SERVER}
 ```
 
-### Analyze an upgrade plan
+##### Analyze an upgrade plan
 
 With the information in the generated build configuration, the *Spring Application Advisor Server* is able to compute the upgrade plan, which we can view with the `advisor upgrade-plan get` command.
 ```execute
 advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
 ```
 
-### Apply an upgrade plan from your local machine
+##### Apply an upgrade plan from your local machine
 Now it's finally time to run our first upgrade step with the `advisor upgrade-plan apply` command. 
 As you can see there are a way more options available than for the previous commands.
 ```execute
@@ -111,135 +115,16 @@ We can discover the changes made to our code base with the Git CLI.
 git status
 git diff pom.xml
 ```
-```terminal:interrupt
-session: 2
-```
 
-But let's from now on use the related view of the Visual Stuio Code editor in the workshop environment.
-After ```editor:execute-command
-command: workbench.view.scm
-description: Open Source Control view in editor
-```
-
-
-
-# Step 1: Upgrade java from 8 to 11
-
-```execute
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER}
-```
-
+But let's from now on use the related *Source Control view* of the Visual Stuio Code editor in the workshop environment.
 ```editor:execute-command
 command: workbench.view.scm
-description: Open Source Control view in editor
+description: Open the "Source Control" view in editor
 ```
 
-# Step 2: Upgrade java from 11 to 17
+In the *Source Control view*, click on the files listed under *Changes* (in our case only `pom.xml`) to see the details. 
+![Source Control View](source-control-view.png)
 
-```execute
-advisor build-config get
-advisor build-config publish --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER}
-```
-
-```editor:execute-command
-command: workbench.view.scm
-description: Open Source Control view in editor
-```
-
-```terminal:execute
-command: sdk use java $(sdk list java | grep installed | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
-session: 1
-cascade: true
-```
-```terminal:execute
-command: sdk use java $(sdk list java | grep installed | grep  "17.*[0-9]-librca" | awk '{print $NF}' | head -n 1)
-session: 2
-hidden: true
-```
-```terminal:execute
-command: ./mvnw spring-boot:run
-session: 2
-```
-
-Spring Application Advisor preserves your coding style by doing the minimum required changes in the source files. However, if you are using a Maven or Gradle formatter like spring-javaformat for your repository, add the --after-upgrade-cmd option to the advisor upgrade-plan apply command as follows.
-
-```execute
-git restore .
-```
-
-```execute
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
-```
-```terminal:execute
-command: ./mvnw spring-boot:run
-session: 2
-```
-
-```dashboard:open-url
-url: {{< param  ingress_protocol >}}://petclinic-{{< param  session_name >}}.{{< param  ingress_domain >}}
-```
-
-```terminal:interrupt
-session: 2
-```
-
-# Step 3: Upgrade spring-boot from 2.7.x to 3.0.x & more
-
-```execute
-advisor build-config get
-advisor build-config publish --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
-```
-
-```editor:execute-command
-command: workbench.view.scm
-description: Open Source Control view in editor
-```
-
-```terminal:execute
-command: ./mvnw spring-boot:run
-session: 2
-```
-
-# Step 4: Upgrade spring-boot from 3.0.x to 3.1.x & more
-```execute
-advisor build-config get
-advisor build-config publish --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
-```
-
-# Step 5: Upgrade spring-boot from 3.1.x to 3.2.x & more
-```execute
-advisor build-config get
-advisor build-config publish --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
-```
-
-# Step 5: Upgrade spring-boot from 3.2.x to 3.3.x & more
-```execute
-advisor build-config get
-advisor build-config publish --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan get --url=${APP_ADVISOR_SERVER}
-advisor upgrade-plan apply --url=${APP_ADVISOR_SERVER} --after-upgrade-cmd=spring-javaformat:apply
-```
-
-```terminal:execute
-command: ./mvnw spring-boot:run
-session: 2
-```
-
-```dashboard:open-url
-url: {{< param  ingress_protocol >}}://petclinic-{{< param  session_name >}}.{{< param  ingress_domain >}}
-```
-
-```terminal:interrupt
-session: 2
-```
-
-
-
+Let's commit and push the changes before we move on with our upgrade plan.
+To do this, enter a commit message like `Upgrade Java from 8 to 11` in the *Message* field, click on the down arror on the right of the commit button and select *Commit & Push*.
+![Source Control View Commit & Push](source-control-view-commit.png)
