@@ -32,7 +32,7 @@ description: Upgrade Sprin Boot from 3.1.x to 3.2.x
 cascade: true
 ```
 ```terminal:execute
-command: sed -i 's/>11</>17</g' pom.xml
+command: sed -i 's/>11</>17</g' pom.xml && clear
 description: Fix bug with OSS OpenRewrite recipe
 hidden: true
 ```
