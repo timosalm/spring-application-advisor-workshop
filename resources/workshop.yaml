@@ -72,6 +72,7 @@ spec:
             containers:
             - name: workload
               image: ghcr.io/timosalm/spring-application-advisor-workshop/app-advisor-server-image:main
+              imagePullPolicy: Always
               ports:
               - containerPort: 8080
     - apiVersion: v1
